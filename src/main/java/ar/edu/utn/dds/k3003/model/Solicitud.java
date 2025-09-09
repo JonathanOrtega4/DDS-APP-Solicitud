@@ -27,29 +27,4 @@ public class Solicitud {
     private EstadoSolicitudBorradoEnum estado;
     private String hechoId;
 
-    public String getId() {
-        return id;
-    }
-    public String getDescripcion() {
-        return descripcion;
-    }
-    public EstadoSolicitudBorradoEnum getEstado() {
-        return estado;
-    }
-    public String getHechoId() {
-        return hechoId;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    public void setEstado(EstadoSolicitudBorradoEnum estado) {
-        this.estado = estado;
-    }
-    public void setHechoId(String hechoId) {
-        this.hechoId = hechoId;
-    }
 }
