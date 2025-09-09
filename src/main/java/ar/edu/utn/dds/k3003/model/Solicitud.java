@@ -2,6 +2,8 @@ package ar.edu.utn.dds.k3003.model;
 
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -24,6 +26,7 @@ public class Solicitud {
     @Id
     private String id;
     private String descripcion;
+    @Enumerated(EnumType.STRING)
     private EstadoSolicitudBorradoEnum estado;
     private String hechoId;
 
