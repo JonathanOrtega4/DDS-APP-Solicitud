@@ -1,6 +1,11 @@
 package ar.edu.utn.dds.k3003.facades.dtos;
 
 public enum EstadoSolicitudBorradoEnum {
-    ACEPTADA,
-    RECHAZADA
+        CREADA,
+        VALIDADA,
+        EN_DISCUCION,
+        ACEPTADA,
+        RECHAZADA
+    }
+
 }
