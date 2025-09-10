@@ -1,8 +1,8 @@
 package ar.edu.utn.dds.k3003.controller;
 
 import ar.edu.utn.dds.k3003.facades.FachadaSolicitudes;
+import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
-import ar.edu.utn.dds.k3003.facades.dtos.SolicitudUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,11 +39,9 @@ public class SolicitudController {
     }
 
     @PatchMapping
-    public ResponseEntity<SolicitudDTO> actualizarSolicitud(@RequestBody SolicitudUpdateDTO solicitudUpdateDTO) {
-        return ResponseEntity.ok(fachadaSolicitudes.modificar(
-                solicitudUpdateDTO.getId(),
-                solicitudUpdateDTO.getEstado(),
-                solicitudUpdateDTO.getDescripcion()
-        ));
+    public ResponseEntity<SolicitudDTO> actualizarSolicitud(@RequestBody String solicitudId,
+                                                            EstadoSolicitudBorradoEnum estado,
+                                                            String descripcion) {
+        return ResponseEntity.ok(fachadaSolicitudes.modificar(solicitudId, estado, descripcion));
     }
 }

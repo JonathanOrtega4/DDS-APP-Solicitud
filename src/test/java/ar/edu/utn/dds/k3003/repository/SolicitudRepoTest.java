@@ -1,10 +1,8 @@
 package ar.edu.utn.dds.k3003.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-
+import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.model.Solicitud;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,8 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
-
 
 import java.util.Optional;
 
@@ -22,9 +18,9 @@ import java.util.Optional;
 public class SolicitudRepoTest {
 
     private static final String HECHO_ID = "123";
-    private static final String id = "9";
+    private static final String SOLICITUD_ID = "9";
     private static final String DESCRIPCION = "Una descripcion";
-    Solicitud solicitud = new Solicitud(id, DESCRIPCION, EstadoSolicitudBorradoEnum.CREADA, HECHO_ID);
+    Solicitud solicitud = new Solicitud(SOLICITUD_ID, DESCRIPCION, EstadoSolicitudBorradoEnum.CREADA, HECHO_ID);
 
     @Autowired
     JpaSolicitudRepository instancia;
@@ -33,15 +29,15 @@ public class SolicitudRepoTest {
     @DisplayName("Agregar una solicitud y buscarla")
     void testAgregarSolicitud() {
         instancia.save(solicitud);
-        assertEquals(solicitud.getId(), instancia.findById(id).get().getId());
+        assertEquals(solicitud.getId(), instancia.findById(SOLICITUD_ID).get().getId());
     }
 
     @Test
     @DisplayName("Borrar una solicitud")
     void testBorrarSolicitud() {
         instancia.save(solicitud);
-        instancia.delete(id);
-        assertEquals(Optional.empty(), instancia.findById(id));
+        instancia.delete(SOLICITUD_ID);
+        assertEquals(Optional.empty(), instancia.findById(SOLICITUD_ID));
     }
 
     @Test
@@ -49,10 +45,10 @@ public class SolicitudRepoTest {
     @DisplayName("Borrar una solicitud que no existe")
     void testBorrarSolicitudNoExistente() {
         instancia.save(solicitud);
-        instancia.delete(id);
+        instancia.delete(SOLICITUD_ID);
         assertThrows(
                 IllegalArgumentException.class,
-                () -> instancia.delete(id),
+                () -> instancia.delete(SOLICITUD_ID),
                 "No value present");
     }
 
