@@ -23,9 +23,9 @@ import java.util.Optional;
 public class SolicitudRepoTest {
 
     private static final String HECHO_ID = "123";
-    private static final String SOLICITUD_ID = "9";
+    private static final String id = "9";
     private static final String DESCRIPCION = "Una descripcion";
-    Solicitud solicitud = new Solicitud(SOLICITUD_ID, DESCRIPCION, EstadoSolicitudBorradoEnum.CREADA, HECHO_ID);
+    Solicitud solicitud = new Solicitud(id, DESCRIPCION, EstadoSolicitudBorradoEnum.CREADA, HECHO_ID);
 
     @Autowired
     JpaSolicitudRepository instancia;
@@ -34,15 +34,15 @@ public class SolicitudRepoTest {
     @DisplayName("Agregar una solicitud y buscarla")
     void testAgregarSolicitud() {
         instancia.save(solicitud);
-        assertEquals(solicitud.getId(), instancia.findById(SOLICITUD_ID).get().getId());
+        assertEquals(solicitud.getId(), instancia.findById(id).get().getId());
     }
 
     @Test
     @DisplayName("Borrar una solicitud")
     void testBorrarSolicitud() {
         instancia.save(solicitud);
-        instancia.delete(SOLICITUD_ID);
-        assertEquals(Optional.empty(), instancia.findById(SOLICITUD_ID));
+        instancia.delete(id);
+        assertEquals(Optional.empty(), instancia.findById(id));
     }
 
     @Test
@@ -50,10 +50,10 @@ public class SolicitudRepoTest {
     @DisplayName("Borrar una solicitud que no existe")
     void testBorrarSolicitudNoExistente() {
         instancia.save(solicitud);
-        instancia.delete(SOLICITUD_ID);
+        instancia.delete(id);
         assertThrows(
                 IllegalArgumentException.class,
-                () -> instancia.delete(SOLICITUD_ID),
+                () -> instancia.delete(id),
                 "No value present");
     }
 
