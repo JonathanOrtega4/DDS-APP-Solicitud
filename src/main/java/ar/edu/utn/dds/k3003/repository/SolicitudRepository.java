@@ -9,6 +9,11 @@ public interface SolicitudRepository {
 
     Optional<Solicitud> findById(String id);
     List<Solicitud> findByHechoId(String id);
+
+    Solicitud save(Solicitud solicitud);
+
     //Solicitud save(Solicitud solicitud);
     void delete(String id);
+
+    List<Solicitud> findAll();
 }

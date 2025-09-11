@@ -1,4 +1,5 @@
 package ar.edu.utn.dds.k3003.repository;
+
 import ar.edu.utn.dds.k3003.model.Solicitud;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -12,36 +13,44 @@ import java.util.Optional;
 @Profile("test")
 public class InMemorySolicitudRepo implements SolicitudRepository {
 
-    private List<Solicitud> solicitudes;
+    private final List<Solicitud> solicitudes;
 
-    public InMemorySolicitudRepo(){
+    public InMemorySolicitudRepo() {
         this.solicitudes = new ArrayList<>();
     }
 
     @Override
     public Optional<Solicitud> findById(String id) {
-        return this.solicitudes.stream().filter(x -> x.getId().equals(id)).findFirst();
+        return this.solicitudes.stream()
+                .filter(s -> Objects.equals(s.getId(), id))
+                .findFirst();
     }
 
     @Override
-    public List<Solicitud> findByHechoId(String id){
-        return this.solicitudes.stream().filter(x -> Objects.equals(x.getHechoId(), id)).toList();
+    public List<Solicitud> findByHechoId(String hechoId) {
+        return this.solicitudes.stream()
+                .filter(s -> Objects.equals(s.getHechoId(), hechoId))
+                .toList();
     }
-    /*
+
     @Override
     public Solicitud save(Solicitud solicitud) {
+        this.solicitudes.removeIf(s -> Objects.equals(s.getId(), solicitud.getId()));
         this.solicitudes.add(solicitud);
-        //hecho.setFechaModificacion(LocalDateTime.now());
         return solicitud;
-    }*/
+    }
 
     @Override
-    public void delete(String id){
+    public void delete(String id) {
         Optional<Solicitud> solicitudOptional = findById(id);
-        if (solicitudOptional.isEmpty()){
-            throw  new IllegalArgumentException("La solicitud: " + id +" no existe");
+        if (solicitudOptional.isEmpty()) {
+            throw new IllegalArgumentException("La solicitud con ID " + id + " no existe");
         }
-        Solicitud solicitudDelete = solicitudOptional.get();
-        this.solicitudes.remove(solicitudDelete);
+        this.solicitudes.remove(solicitudOptional.get());
+    }
+
+    @Override
+    public List<Solicitud> findAll() {
+        return new ArrayList<>(this.solicitudes);
     }
 }
