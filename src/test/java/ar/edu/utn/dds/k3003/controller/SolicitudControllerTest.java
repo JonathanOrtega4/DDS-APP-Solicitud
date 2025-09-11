@@ -6,6 +6,7 @@ import ar.edu.utn.dds.k3003.facades.FachadaFuente;
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
 import ar.edu.utn.dds.k3003.repository.JpaSolicitudRepository;
+import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
