@@ -45,7 +45,7 @@ public class Fachada implements FachadaSolicitudes {
         if (this.solicitudRepository.findById(solicitudDTO.id()).isPresent()){
             throw  new IllegalArgumentException(solicitudDTO.id() + " ya existe");
         }
-        HechoDTO hecho = fuente.buscarHechoXId(solicitudDTO.hechoId());
+        // HechoDTO hecho = fuente.buscarHechoXId(solicitudDTO.hechoId());
         if (antiSpam.revisarSpam(solicitudDTO.descripcion())){
             throw new IllegalArgumentException("No cumple requisito de AntiSpam");
         }
