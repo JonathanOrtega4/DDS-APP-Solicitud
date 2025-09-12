@@ -5,7 +5,8 @@ import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
 import ar.edu.utn.dds.k3003.model.Solicitud;
-import ar.edu.utn.dds.k3003.repository.JpaSolicitudRepository;
+//import ar.edu.utn.dds.k3003.repository.JpaSolicitudRepository;
+import ar.edu.utn.dds.k3003.repository.SolicitudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +19,11 @@ import java.util.Optional;
 @Service
 public class Fachada implements FachadaSolicitudes {
 
-    private JpaSolicitudRepository solicitudRepository;
+    private SolicitudRepository solicitudRepository;
     private FachadaFuente fuente;
     private AntiSpamService antiSpam;
 
-    public Fachada(JpaSolicitudRepository repo) {
+    public Fachada(SolicitudRepository repo) {
         this.solicitudRepository = repo;
         this.antiSpam = texto -> false;
     }
@@ -33,7 +34,7 @@ public class Fachada implements FachadaSolicitudes {
     }
 
     @Autowired
-    public Fachada(JpaSolicitudRepository solicitudRepository, AntiSpamService antiSpam) {
+    public Fachada(SolicitudRepository solicitudRepository, AntiSpamService antiSpam) {
         this.solicitudRepository = solicitudRepository;
         this.antiSpam = antiSpam;
     }
@@ -60,7 +61,7 @@ public class Fachada implements FachadaSolicitudes {
         Solicitud solicitud = new Solicitud(solicitudTemp.id(), solicitudTemp.descripcion(), solicitudTemp.estado(), solicitudTemp.hechoId());
         solicitud.setEstado(estado);
         solicitud.setDescripcion(descripcion);
-        solicitudRepository.delete(solicitud.getId());
+        //solicitudRepository.delete(solicitud.getId());
         solicitudRepository.save(solicitud);
         return convertirDesdeDominio(solicitud);
     }
