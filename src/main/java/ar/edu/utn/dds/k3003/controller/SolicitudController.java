@@ -51,4 +51,13 @@ public class SolicitudController {
                                                             String descripcion) {
         return ResponseEntity.ok(fachadaSolicitudes.modificar(solicitudId, estado, descripcion));
     }
+
+    @GetMapping("/Activos")
+    public ResponseEntity<List<SolicitudDTO>> obtenerAprobadasPorHecho(@RequestParam("hechoId") String hechoId) {
+        List<SolicitudDTO> todas = fachadaSolicitudes.buscarSolicitudXHecho(hechoId);
+        List<SolicitudDTO> soloAprobadas = todas.stream()
+                .filter(s -> s.estado() != EstadoSolicitudBorradoEnum.ACEPTADA)
+                .toList();
+        return ResponseEntity.ok(soloAprobadas);
+    }
 }
