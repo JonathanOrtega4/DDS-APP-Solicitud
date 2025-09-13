@@ -22,12 +22,13 @@ public class ConexionHTTP {
         this.restTemplate = new RestTemplate();
     }
 
-    public Optional<HechoDTO> obtenerHechoID(String id){
-        String url = this.url+"/hecho/"+id;
+    public Optional<HechoDTO> obtenerHechoID(String id) {
+        String url = this.url + "/hecho/" + id;
         try {
             ResponseEntity<HechoDTO> response = restTemplate.getForEntity(url, HechoDTO.class);
             return Optional.ofNullable(response.getBody());
-        } catch (HttpClientErrorException e){}
-            return  Optional.empty();
+        } catch (HttpClientErrorException e) {
+            throw new IllegalArgumentException(" El hecho no existe");
         }
     }
+}
