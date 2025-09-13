@@ -44,24 +44,45 @@ public class Fachada implements FachadaSolicitudes {
     @Override
     @Transactional
     public SolicitudDTO agregar(SolicitudDTO solicitudDTO) {
-        if (this.solicitudRepository.findById(solicitudDTO.id()).isPresent()){
-            throw  new IllegalArgumentException(solicitudDTO.id() + " ya existe");
+        if (this.solicitudRepository.findById(solicitudDTO.id()).isPresent()) {
+            throw new IllegalArgumentException(solicitudDTO.id() + " ya existe");
         }
 
         ConexionHTTP conexion = new ConexionHTTP();
 
-        Optional<HechoDTO> hechoDTO = conexion.obtenerHechoID(solicitudDTO.hechoId());
-        if (hechoDTO.isEmpty()){
-            throw new IllegalArgumentException(solicitudDTO.id() + " El hecho no existe");
+
+        // Validar que el hecho exista en el microservicio fuente
+        String hechoId = solicitudDTO.hechoId();
+        if (conexion.obtenerHechoID(hechoId).isEmpty()) {
+            throw new IllegalArgumentException("El Hecho id=" + hechoId + " no existe en la fuente");
         }
 
-        if (antiSpam.revisarSpam(solicitudDTO.descripcion())){
+
+        if (antiSpam.revisarSpam(solicitudDTO.descripcion())) {
             throw new IllegalArgumentException("No cumple requisito de AntiSpam");
         }
+
+        // Persistir la solicitud con el hechoId
         Solicitud solicitud = convertirDesdeDTO(solicitudDTO);
-        this.solicitudRepository.save(solicitud);
+        solicitud.setHechoId(hechoId);
+        solicitudRepository.save(solicitud);
+
         return convertirDesdeDominio(solicitud);
+
     }
+
+
+//        ConexionHTTP conexion = new ConexionHTTP();
+//
+//        Optional<HechoDTO> hechoDTO = conexion.obtenerHechoID(solicitudDTO.hechoId());
+//        if (hechoDTO.isEmpty()){
+//            throw new IllegalArgumentException(solicitudDTO.id() + " El hecho no existe");
+//        }
+//
+//
+//        Solicitud solicitud = convertirDesdeDTO(solicitudDTO);
+//        this.solicitudRepository.save(solicitud);
+//        return convertirDesdeDominio(solicitud);
 
     @Transactional
     @Override
