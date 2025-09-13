@@ -4,6 +4,7 @@ import ar.edu.utn.dds.k3003.facades.FachadaSolicitudes;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoSolicitudBorradoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
 import ar.edu.utn.dds.k3003.facades.dtos.SolicitudDTO;
+import ar.edu.utn.dds.k3003.model.ConexionHTTP;
 import ar.edu.utn.dds.k3003.model.Solicitud;
 //import ar.edu.utn.dds.k3003.repository.JpaSolicitudRepository;
 import ar.edu.utn.dds.k3003.repository.SolicitudRepository;
@@ -39,13 +40,21 @@ public class Fachada implements FachadaSolicitudes {
         this.antiSpam = antiSpam;
     }
 
+
     @Override
     @Transactional
     public SolicitudDTO agregar(SolicitudDTO solicitudDTO) {
         if (this.solicitudRepository.findById(solicitudDTO.id()).isPresent()){
             throw  new IllegalArgumentException(solicitudDTO.id() + " ya existe");
         }
-        // HechoDTO hecho = fuente.buscarHechoXId(solicitudDTO.hechoId());
+
+        ConexionHTTP conexion = new ConexionHTTP();
+
+        Optional<HechoDTO> hechoDTO = conexion.obtenerHechoID(solicitudDTO.hechoId());
+        if (hechoDTO.isEmpty()){
+            throw new IllegalArgumentException(solicitudDTO.id() + " El hecho no existe");
+        }
+
         if (antiSpam.revisarSpam(solicitudDTO.descripcion())){
             throw new IllegalArgumentException("No cumple requisito de AntiSpam");
         }
