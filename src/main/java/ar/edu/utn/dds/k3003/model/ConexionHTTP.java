@@ -27,8 +27,11 @@ public class ConexionHTTP {
         try {
             ResponseEntity<HechoDTO> response = restTemplate.getForEntity(url, HechoDTO.class);
             return Optional.ofNullable(response.getBody());
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException.NotFound e) {
             throw new IllegalArgumentException(" El hecho no existe");
+        } catch (HttpClientErrorException e) {
+            // Para otros errores 4xx
+            throw new IllegalArgumentException("Error al consultar el hecho: " + e.getStatusCode(), e);
         }
     }
 }
