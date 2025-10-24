@@ -52,6 +52,8 @@ public class SolicitudController {
         return ResponseEntity.ok(fachadaSolicitudes.modificar(solicitudId, estado, descripcion));
     }
 
+
+    // GET /Activos?hechoId={hechoId}
     @GetMapping("/Activos")
     public ResponseEntity<List<SolicitudDTO>> obtenerAprobadasPorHecho(@RequestParam("hechoId") String hechoId) {
         List<SolicitudDTO> todas = fachadaSolicitudes.buscarSolicitudXHecho(hechoId);
