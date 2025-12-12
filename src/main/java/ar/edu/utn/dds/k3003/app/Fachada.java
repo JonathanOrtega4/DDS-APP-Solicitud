@@ -133,9 +133,8 @@ public class Fachada implements FachadaSolicitudes {
                     solicitudes.add(solicitudTemp);
                 }
         );
-        return solicitudes.stream().anyMatch(x -> x.getEstado() != EstadoSolicitudBorradoEnum.ACEPTADA)
-                ||
-                solicitudes.stream().anyMatch(x -> x.getEstado() != EstadoSolicitudBorradoEnum.RECHAZADA);
+        return solicitudes.stream()
+                .anyMatch(x -> x.getEstado() != EstadoSolicitudBorradoEnum.ACEPTADA);
     }
 
     @Override
